@@ -705,6 +705,7 @@ function handleKeyUp(e) {
     if (currentAnimationType === animationTypes.duck) {
       duckTimer = 8;
       frameIndex = 20;
+      
     }
   }
   if (e.key === "ArrowRight" || e.key === "d") {

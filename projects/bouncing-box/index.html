@@ -6,19 +6,22 @@
 	<script src="jquery.min.js"></script>
 	<style>
 		.box {
-			width: 70px;
-			height: 70px;
-			background-color: teal;
-			font-size: 300%;
+			width: 300px;
+			height: 300px;
+			background-color: rgb(46, 174, 253);
+			font-size: 272px;
 			text-align: center;
 			user-select: none;
 			display: block;
 			position: absolute;
 			top: 100px;
-			left: 0px;  /* <--- Change me! */
+			left: 750px;  /* <--- Change me! */
 		}
 		.board{
 			height: 100vh;
+		}
+		body {
+			background-color: rgb(63, 0, 0);
 		}
 	</style>
 	<!-- 	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script> -->
@@ -40,6 +43,7 @@
 			var box = jQuery('.box');	// reference to the HTML .box element
 			var board = jQuery('.board');	// reference to the HTML .board element
 			var boardWidth = board.width();	// the maximum X-Coordinate of the screen
+			var boardHeight = jQuery(window).height(); 
 
 			// Every 50 milliseconds, call the update Function (see below)
 			setInterval(update, 50);
@@ -48,8 +52,9 @@
 			box.on('click', handleBoxClick);
 
 			// moves the Box to a new position on the screen along the X-Axis
-			function moveBoxTo(newPositionX) {
+			function moveBoxTo(newPositionX, newPositionY) {
 				box.css("left", newPositionX);
+				box.css("top", newPositionY);
 			}
 
 			// changes the text displayed on the Box
@@ -62,7 +67,11 @@
 			//////////////////////////////////////////////////////////////////
 			
 			// TODO 2 - Variable declarations 
-			
+			var positionX = 0;
+			var positionY = 0;
+			var points = 0;
+			var speed = 1;
+			var speedY = 0;
 
 			
 			/* 
@@ -71,8 +80,23 @@
 			turn it around! 
 			*/
 			function update() {
+				moveBoxTo(positionX, positionY);
+				// We want to increase the value of X by 10
+				positionY += speedY;
+				positionX += speed;
+				if(positionX > boardWidth){
+					speed = -speed
+				}
+				if(positionX < 0){
+					speed = -speed
+				}
+				if(positionY > boardHeight){
+					speedY = -speedY
+				}
+				if(positionY < 0){
+					speedY = -speedY
+				}
 				
-
 			};
 
 			/* 
@@ -81,9 +105,23 @@
 			the left side of the screen.
 			*/
 			function handleBoxClick() {
+				changeBoxText(points + 1);
+				positionX = 0;
+				points++;
+				speed = speed + 10
 				
-
-
+				if(speed > 0){
+					speed = speed + 3
+				}
+				else if(speed < 0){
+					speed = speed - 3
+				}
+				if(speedY > 0){
+					speedY += 3;
+				}
+				else{
+					speedY -= 3;
+				}
 			};
 		})();
 	</script>
